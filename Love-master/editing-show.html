@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>【输入显示】特效的抽离</title>
+  <script src="js/jquery.js"></script>
+</head>
+
+<body>
+  <div id="code">
+    <span class="comments">/**</span><br />
+    <span class="space" /><span class="comments">* We are both Fudan SSers and programmers,</span><br />
+    <span class="space" /><span class="comments">* so I write some code to celebrate our 1st anniversary.</span><br />
+    <span class="space" /><span class="comments">*/</span><br />
+    Boy i = <span class="keyword">new</span> Boy(<span class="string">"hackerzhou"</span>);<br />
+    Girl u = <span class="keyword">new</span> Girl(<span class="string">"MaryNee"</span>);<br />
+    <span class="comments">// Nov 2, 2010, I told you I love you. </span><br />
+    i.love(u);<br />
+    <span class="comments">// Luckily, you accepted and became my girlfriend eversince.</span><br />
+    u.accepted();<br />
+    <span class="comments">// Since then, I miss u every day.</span><br />
+    i.miss(u);<br />
+    <span class="comments">// And take care of u and our love.</span><br />
+    i.takeCareOf(u);<br />
+    <span class="comments">// You say that you won't be so easy to marry me.</span><br />
+    <span class="comments">// So I keep waiting and I have confidence that you will.</span><br />
+    <span class="keyword">boolean</span> isHesitate = <span class="keyword">true</span>;<br />
+    <span class="keyword">while</span> (isHesitate) {<br />
+    <span class="placeholder" />i.waitFor(u);<br />
+    <span class="placeholder" /><span class="comments">// I think it is an important decision</span><br />
+    <span class="placeholder" /><span class="comments">// and you should think it over.</span><br />
+    <span class="placeholder" />isHesitate = u.thinkOver();<br />
+    }<br />
+    <span class="comments">// After a romantic wedding, we will live happily ever after.</span><br />
+    i.marry(u);<br />
+    i.liveHappilyWith(u);<br />
+  </div>
+  <script>
+    // 将函数写入JQUERY，使用方便
+    (function (a) {
+      a.fn.typewriter = function () {
+        console.dir(a)
+        console.dir(this)
+        this.each(function () {
+          var d = a(this),
+            c = d.html(),
+            b = 0;
+          d.html("");
+          var e = setInterval(function () {
+            var f = c.substr(b, 1);
+            if (f == "<") {
+              b = c.indexOf(">", b) + 1
+            } else {
+              b++
+            }
+            d.html(c.substring(0, b) + (b & 1 ? "_" : ""));
+            if (b >= c.length) {
+              clearInterval(e)
+            }
+          }, 75)
+        });
+        return this
+      }
+    })(jQuery);
+    // 使用方法
+    // $("#code").typewriter();
+// ---------------------------------------------------------------------
+    // 上面函数的非JQUERY化-原生JS写法
+    function typeWriter(node) {
+      // 获取DOM节点对象
+      let dd = document.querySelector(node)
+      // 转存需要显示的全部内容
+      let cc = dd.innerHTML
+      // 显示特效的起点位置
+      let bb = 0
+      // 初始化显示为空
+      dd.innerHTML=""
+      // 设置定时器，显示特效
+      let ee = setInterval(() => {
+        // 获取接下来要显示的字符
+        let ff = cc.substr(bb,1)
+        // 跳过标签：不是删除标签，需要标签来控制样式
+        if(ff === "<"){
+          // 如果发现是标签，就跳到标签的结束位置，给bb重新赋值
+          bb = cc.indexOf(">",bb)+1
+        } else {
+          // 不是标签的话，bb自增
+          bb++
+        }
+        // 页面实际显示内容即肉眼可见的内容,最后的三元表达式是控制开始和结束的显示内容
+        dd.innerHTML=cc.substring(0,bb)+(bb!==0&&bb<cc.length?" |":"")
+        // 当全部显示完毕后，清除定时器
+        if(bb>=cc.length){
+          clearInterval(ee)
+        }
+      }, 10); //此处的数字控制显示速度
+    }
+    // 调用
+    typeWriter("#code");
+  </script>
+</body>
+
+</html>
